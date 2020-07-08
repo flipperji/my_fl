@@ -4,6 +4,7 @@ import 'data/data_page.dart';
 import 'nested/person_page.dart';
 import 'table/data_home_table.dart';
 import 'table/table_page.dart';
+import 'table/table_page1.dart';
 
 void main() => runApp(MyApp());
 
@@ -16,7 +17,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: TablePage(),
+      home: TablePage1(),
     );
   }
 }
