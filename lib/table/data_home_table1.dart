@@ -156,48 +156,9 @@ class _HorizontalDataTable1State extends State<HorizontalDataTable1> {
           left: 0,
           height: height,
           width: widget.leftHandSideColumnWidth,
-          child: Selector<ScrollShadowModel, double>(
-            selector: (context, scrollShadowModel) {
-              return scrollShadowModel?.horizontalOffset ?? 0;
-            },
-            child: Container(
-              width: widget.leftHandSideColumnWidth,
-              child: _getLeftSideFixedHeaderScrollColumn(),
-            ),
-            builder: (context, horizontalOffset, child) {
-              return Stack(
-                children: <Widget>[
-                  Positioned.fill(
-                    child: Container(
-                      //force table background to be transaparent to adopt the color behide this table
-//                      color: widget.leftHandSideColBackgroundColor,
-//                      child: child,
-//                      elevation: _getElevation(horizontalOffset),
-                        decoration: BoxDecoration(
-                          color: widget.rightHandSideColBackgroundColor,
-                          boxShadow: [
-                            BoxShadow(
-                              color: widget.elevationColor.withAlpha((10 *
-                                  (_getElevation(horizontalOffset) /
-                                      widget.elevation))
-                                  .toInt()),
-                              blurRadius: 0.0,
-                              // has the effect of softening the shadow
-                              spreadRadius: 0.0,
-                              // has the effect of extending the shadow
-                              offset: Offset(
-                                _getElevation(horizontalOffset),
-                                // horizontal, move right 10
-                                0.0, // vertical, move down 10
-                              ),
-                            )
-                          ],
-                        )),
-                  ),
-                  child
-                ],
-              );
-            },
+          child: Container(
+            width: widget.leftHandSideColumnWidth,
+            child: _getLeftSideFixedHeaderScrollColumn(),
           ),
         ),
       ],
@@ -205,108 +166,13 @@ class _HorizontalDataTable1State extends State<HorizontalDataTable1> {
   }
 
   Widget _getLeftSideFixedHeaderScrollColumn() {
-    if (widget.isFixedHeader) {
-      return Column(
-        children: <Widget>[
-          Selector<ScrollShadowModel, double>(
-            selector: (context, scrollShadowModel) {
-              return scrollShadowModel?.verticalOffset ?? 0;
-            },
-            child: widget.headerWidgets[0],
-            builder: (context, verticalOffset, child) {
-              return Stack(
-                children: <Widget>[
-                  Positioned.fill(
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: widget.leftHandSideColBackgroundColor,
-                        boxShadow: [
-                          BoxShadow(
-                            color: widget.elevationColor.withAlpha((10 *
-                                (_getElevation(verticalOffset) /
-                                    widget.elevation))
-                                .toInt()),
-                            blurRadius: 0.0,
-                            // has the effect of softening the shadow
-                            spreadRadius: 0.0,
-                            // has the effect of extending the shadow
-                            offset: Offset(
-                              0.0, // horizontal, move right 10
-                              _getElevation(
-                                  verticalOffset), // vertical, move down 10
-                            ),
-                          )
-                        ],
-                      ),
-//                    child: child,
-//                elevation: _getElevation(verticalOffset),
-                    ),
-                  ),
-                  child
-                ],
-              );
-            },
-          ),
-          widget.rowSeparatorWidget,
-          Expanded(
-              child: _getScrollColumn(_getLeftHandSideListView(),
-                  this._leftHandSideListViewScrollController)),
-        ],
-      );
-    } else {
-      return _getScrollColumn(_getLeftHandSideListView(),
-          this._leftHandSideListViewScrollController);
-    }
+    return _getScrollColumn(_getLeftHandSideListView(),
+        this._leftHandSideListViewScrollController);
   }
 
   Widget _getRightSideHeaderScrollColumn() {
-    if (widget.isFixedHeader) {
-      List<Widget> widgetList = List<Widget>();
-      //headers
-      widgetList.add(Selector<ScrollShadowModel, double>(
-          selector: (context, scrollShadowModel) {
-            return scrollShadowModel?.verticalOffset ?? 0;
-          },
-          builder: (context, verticalOffset, child) {
-            return Container(
-              decoration: BoxDecoration(
-                color: widget.rightHandSideColBackgroundColor,
-                boxShadow: [
-                  BoxShadow(
-                    color: widget.elevationColor.withAlpha((10 *
-                        (_getElevation(verticalOffset) / widget.elevation))
-                        .toInt()),
-                    blurRadius: 0.0,
-                    // has the effect of softening the shadow
-                    spreadRadius: 0.0,
-                    // has the effect of extending the shadow
-                    offset: Offset(
-                      0.0, // horizontal, move right 10
-                      _getElevation(verticalOffset), // vertical, move down 10
-                    ),
-                  )
-                ],
-              ),
-              child: child,
-//                elevation: _getElevation(verticalOffset)
-            );
-          },
-          child: Row(children: widget.headerWidgets.sublist(1))));
-      widgetList.add(
-        widget.rowSeparatorWidget,
-      );
-      //ListView
-      widgetList.add(Expanded(
-        child: _getScrollColumn(_getRightHandSideListView(),
-            this._rightHandSideListViewScrollController),
-      ));
-      return Column(
-        children: widgetList,
-      );
-    } else {
-      return _getScrollColumn(_getRightHandSideListView(),
-          this._rightHandSideListViewScrollController);
-    }
+    return _getScrollColumn(_getRightHandSideListView(),
+        this._rightHandSideListViewScrollController);
   }
 
   Widget _getScrollColumn(Widget child, ScrollController scrollController) {
