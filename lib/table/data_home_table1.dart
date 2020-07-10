@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import 'scroll_shadow_model.dart';
+import 'table_page1.dart';
 
 ///
 /// For sorting issue, will based on the header fixed widget for flexible handling, suggest using [FlatButton] to control the data sorting
@@ -42,6 +43,8 @@ class HorizontalDataTable1 extends StatefulWidget {
 
   final Color leftHandSideColBackgroundColor;
   final Color rightHandSideColBackgroundColor;
+  final ScrollController outerScrollController;
+  final OuterSyncScrollControllerManager outerSyncScroller;
 
   const HorizontalDataTable1({
     @required this.leftHandSideColumnWidth,
@@ -62,6 +65,8 @@ class HorizontalDataTable1 extends StatefulWidget {
     this.elevationColor = Colors.black54,
     this.leftHandSideColBackgroundColor = Colors.white,
     this.rightHandSideColBackgroundColor = Colors.white,
+    this.outerScrollController,
+    this.outerSyncScroller,
   })
       : assert(
   (leftSideChildren == null && leftSideItemBuilder != null) ||
@@ -141,14 +146,24 @@ class _HorizontalDataTable1State extends State<HorizontalDataTable1> {
           left: widget.leftHandSideColumnWidth,
           height: height,
           width: width - widget.leftHandSideColumnWidth,
-          child: SingleChildScrollView(
-            controller: _rightHorizontalScrollController,
-            child: Container(
-              color: widget.rightHandSideColBackgroundColor,
-              child: _getRightSideHeaderScrollColumn(),
-              width: widget.rightHandSideColumnWidth,
+          child: NotificationListener<ScrollNotification>(
+            child: SingleChildScrollView(
+              child: SingleChildScrollView(
+                controller: _rightHorizontalScrollController,
+                child: Container(
+                  color: widget.rightHandSideColBackgroundColor,
+                  child: _getRightSideHeaderScrollColumn(),
+                  width: widget.rightHandSideColumnWidth,
+                ),
+                scrollDirection: Axis.horizontal,
+              ),
+              scrollDirection: Axis.horizontal,
+              controller: widget.outerScrollController,
             ),
-            scrollDirection: Axis.horizontal,
+            onNotification: (ScrollNotification scrollInfo) {
+              widget.outerSyncScroller.processNotification(scrollInfo, widget.outerScrollController);
+              return false;
+            },
           ),
         ),
         Positioned(
@@ -164,12 +179,12 @@ class _HorizontalDataTable1State extends State<HorizontalDataTable1> {
       ],
     );
   }
-
+  ///获取左列表
   Widget _getLeftSideFixedHeaderScrollColumn() {
     return _getScrollColumn(_getLeftHandSideListView(),
         this._leftHandSideListViewScrollController);
   }
-
+  ///获取右列表
   Widget _getRightSideHeaderScrollColumn() {
     return _getScrollColumn(_getRightHandSideListView(),
         this._rightHandSideListViewScrollController);
@@ -216,16 +231,6 @@ class _HorizontalDataTable1State extends State<HorizontalDataTable1> {
         children: children,
       );
     }
-  }
-
-  double _getElevation(double offset) {
-    if (offset != null) {
-      double elevation = offset > widget.elevation ? widget.elevation : offset;
-      if (elevation >= 0) {
-        return elevation;
-      }
-    }
-    return 0.0;
   }
 }
 
