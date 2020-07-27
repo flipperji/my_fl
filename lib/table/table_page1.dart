@@ -101,7 +101,7 @@ class _TablePage1State extends State<TablePage1> {
         ),
         Expanded(
           child: Container(
-            child: HorizontalDataTable1(
+            child: HomeDataTable(
               outerSyncScroller: _syncScroller,
               outerScrollController: scrollController2,
               leftHandSideColumnWidth: 100,

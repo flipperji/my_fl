@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 
+import 'calender/calendar_page.dart';
+import 'chart/line_chart_sample5.dart';
+import 'chart/line_chart_sample_test.dart';
+import 'chart/liner_chart.dart';
 import 'data/data_page.dart';
 import 'nested/person_page.dart';
 import 'table/data_home_table.dart';
@@ -17,9 +21,12 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: TablePage1(),
+      home: Scaffold(
+        body: Container(
+          margin: EdgeInsets.only(top: 120,left: 20,right: 20),
+          child: CalendarPage(),
+        ),
+      ),
     );
   }
 }
-
-

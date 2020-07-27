@@ -31,7 +31,8 @@ dependencies:
   fl_chart: ^0.10.0
   provider: ^4.0.5+1
   pull_to_refresh: ^1.5.8
-
+  flutter_color_plugin: ^0.0.2
+  fluttertoast: ^3.1.0
 dev_dependencies:
   flutter_test:
     sdk: flutter

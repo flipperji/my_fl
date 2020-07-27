@@ -8,7 +8,7 @@ import 'table_page1.dart';
 /// For sorting issue, will based on the header fixed widget for flexible handling, suggest using [FlatButton] to control the data sorting
 ///
 ///
-class HorizontalDataTable1 extends StatefulWidget {
+class HomeDataTable extends StatefulWidget {
   final double leftHandSideColumnWidth;
   final double rightHandSideColumnWidth;
 
@@ -36,17 +36,12 @@ class HorizontalDataTable1 extends StatefulWidget {
   ///This is apply to all remaining data row of the list view
   final Widget rowSeparatorWidget;
 
-  ///Elevation for the shadow of header row and first column after scroll
-  ///If don't want to show the shadow, please set it to 0.0
-  final double elevation;
-  final Color elevationColor;
-
   final Color leftHandSideColBackgroundColor;
   final Color rightHandSideColBackgroundColor;
   final ScrollController outerScrollController;
   final OuterSyncScrollControllerManager outerSyncScroller;
 
-  const HorizontalDataTable1({
+  const HomeDataTable({
     @required this.leftHandSideColumnWidth,
     @required this.rightHandSideColumnWidth,
     this.isFixedHeader = false,
@@ -61,8 +56,6 @@ class HorizontalDataTable1 extends StatefulWidget {
       height: 0.0,
       thickness: 0.0,
     ),
-    this.elevation = 3.0,
-    this.elevationColor = Colors.black54,
     this.leftHandSideColBackgroundColor = Colors.white,
     this.rightHandSideColBackgroundColor = Colors.white,
     this.outerScrollController,
@@ -78,17 +71,15 @@ class HorizontalDataTable1 extends StatefulWidget {
         'Either using itemBuilder or children to assign right side widgets'),
         assert((isFixedHeader && headerWidgets != null) || !isFixedHeader,
         'If use fixed top row header, isFixedHeader==true, headerWidgets must not be null'),
-        assert(itemCount >= 0, 'itemCount must >= 0'),
-        assert(elevation >= 0.0, 'elevation must >= 0.0'),
-        assert(elevationColor != null, 'elevationColor must not be null');
+        assert(itemCount >= 0, 'itemCount must >= 0');
 
   @override
   State<StatefulWidget> createState() {
-    return _HorizontalDataTable1State();
+    return _HomeDataTableState();
   }
 }
 
-class _HorizontalDataTable1State extends State<HorizontalDataTable1> {
+class _HomeDataTableState extends State<HomeDataTable> {
   ScrollController _leftHandSideListViewScrollController = ScrollController();
   ScrollController _rightHandSideListViewScrollController = ScrollController();
   ScrollController _rightHorizontalScrollController = ScrollController();
